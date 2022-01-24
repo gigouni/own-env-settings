@@ -12,9 +12,10 @@ Description of custom bash aliases, installed applications, etc... to set up env
         - [1.2.2. Extensions](#122-extensions)
             - [1.2.2.1. tl;dr](#1221-tldr)
             - [1.2.2.2. Tooling](#1222-tooling)
-            - [1.2.2.2. Formatting & linting](#1222-formatting--linting)
-            - [1.2.2.3. Theming](#1223-theming)
-            - [1.2.2.4. Other](#1224-other)
+            - [1.2.2.3. Formatting & linting](#1223-formatting--linting)
+            - [1.2.2.4. Theming](#1224-theming)
+            - [1.2.2.5. Other](#1225-other)
+        - [1.2.3. SSH keys](#123-ssh-keys)
 
 <!-- /TOC -->
 
@@ -33,17 +34,63 @@ fi
 Create a _"~/.bash_aliases"_ if it does not exist yet and add
 
 ```bash
-# ============================================
+# ------------------------------------------------------------------------------------------------------------------
 # Custom aliases
-# ============================================
-
-# Global aliases
-alias ll='ls -la --color=auto'
-alias cls='clear'
-alias xx='exit'
-
-# Development aliases
-alias dev='cd D:/dev'
+# ------------------------------------------------------------------------------------------------------------------
+currentAliasesFilename='/c/Users/ngigou/installationFolder/cmder/vendor/git-for-windows/etc/profile.d/aliases.sh'
+devFolder='/c/Users/ngigou/dev'
+appsFolder="$devFolder/apps/sw/micro-services/pilot-supervision"
+ 
+alias yolo="echo je suis dans $currentAliasesFilename"
+alias aliases="code $currentAliasesFilename"
+alias dev="cd $devFolder"
+alias ls="ls -F --color=auto --show-control-chars"
+alias ll="ls -l"
+alias cls="clear"
+alias e.="explorer ."
+alias xx="exit"
+alias ii="npm install --no-audit --no-progress"
+alias linked="ls -l node_modules | grep ^l"
+alias stush="git stash && git push && git stash pop"
+alias slush="git stash && git pull && git stash pop"
+alias logz="git log -5"
+alias tagz="git tag -l | sort -V"
+alias gdiff="git diff"
+alias gst="git status"
+alias gbranch="git branch -vv"
+ 
+alias man='echo -e "
+  Hey dude, enjoy!
+  Current aliases filename: $currentAliasesFilename
+ 
+  Meta-commands:
+        yolo: get the path of the current aliases file
+        aliases: edit the current aliases
+ 
+  Go-to:
+        dev: go to the dev folder
+ 
+  Explorer:
+        ls: list the files (but not the hidden ones)
+        ll: list the files, even the hidden ones
+        cls: clear the current shell
+        e.: open an explorer windows in the current folder
+        xx: close the current shell
+ 
+  Development:
+        ii: install npm dependencies
+        linked: get the list of linked modules within the ./node_modules directory
+ 
+  Git:
+        stush: run git stash && git push && git stash pop
+        slush: run git stash && git pull && git stash pop
+        tagz: list the project tags in a natural order
+        logz: get the 5 latest commits logs
+        gdiff: run git diff
+        gst: run git status
+        gbranch: list the current prettified local branches
+ 
+    "'
 ```
 
 **Nota**: You may have to change the path to the _"dev/"_ folder for the **dev** alias
@@ -54,11 +101,64 @@ alias dev='cd D:/dev'
 
 ```json
 {
-    "window.zoomLevel": -2,
-    "sync.gist": "1c9a0ebde17a9037cc2f694365afff1a",
-    "workbench.colorTheme": "One Dark Pro",
-    "workbench.iconTheme": "vscode-icons",
-    "files.eol": "\n"
+    // ==============================================================================
+    // VSCode features (editor, workbench, files, ...)
+    // ==============================================================================
+    "window.zoomLevel": -1,
+    "workbench.startupEditor": "none",
+    "editor.suggestSelection": "first",
+    "editor.guides.bracketPairs": true,
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.autoSave": "onFocusChange",
+    "workbench.iconTheme": "material-icon-theme",
+    "files.eol": "\n", // Unix line endings: \n for LF // Windows line endings: \r\n for CRLF
+    "editor.rulers": [
+        80,
+        {
+            "column": 120,
+            "color": "#ff00FF"
+        }
+    ],
+
+   
+    // ==============================================================================
+    // Version System Control & Git
+    // ==============================================================================
+    "scm.alwaysShowRepositories": true,
+    "scm.repositories.visible": 0,
+    "git.path": "C:\\Users\\ngigou\\installationFolder\\cmder\\vendor\\git-for-windows\\bin\\git.exe",
+    "git.confirmSync": false,
+    "git.requireGitUserConfig": false,
+    "git.autofetch": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+   
+   
+    // ==============================================================================
+    // Extensions
+    // ==============================================================================
+    "cSpell.userWords": [
+        "datetime",
+        "endregion",
+        "gigouni",
+        "gitlab",
+        "ipmitool",
+        "konami",
+        "npmignore",
+        "totomaster",
+        "vuex"
+    ],
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+   
+    // ==============================================================================
+    // Python
+    // ==============================================================================
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true
 }
 ```
 
@@ -90,7 +190,7 @@ code --install-extension zhuangtongfa.Material-theme
 code --install-extension octref.vetur                               # Vue.js tooling
 ```
 
-#### 1.2.2.2. Formatting & linting
+#### 1.2.2.3. Formatting & linting
 
 ```shell
 code --install-extension dbaeumer.vscode-eslint                     # ESLint linting
@@ -99,7 +199,7 @@ code --install-extension DavidAnson.vscode-markdownlint             # Markdown l
 code --install-extension bierner.markdown-emoji                     # Replace emote code (aka :tada:) to actual emote
 ```
 
-#### 1.2.2.3. Theming
+#### 1.2.2.4. Theming
 
 ```shell
 code --install-extension vscode-icons-team.vscode-icons             # Set of icons for files in Files Explorer
@@ -107,8 +207,18 @@ code --install-extension zhuangtongfa.Material-theme                # Material d
 code --install-extension bierner.markdown-preview-github-styles     # GitHub Markdown theming
 ```
 
-#### 1.2.2.4. Other
+#### 1.2.2.5. Other
 
 ```shell
 code --install-extension Shan.code-settings-sync                    # VS Code extensions synchronizer
 ```
+
+### 1.2.3. SSH keys
+
+To generate a new SSH key for your hub (GitHub, GitLab), you can use the bash script
+
+```bash
+bash ./generate_new_ssh_key_id_ed25519.sh
+```
+
+Don't forget to change the `<your-email-address>` value before running the script
